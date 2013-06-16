@@ -1,0 +1,10 @@
+这个工程里放将来可能会用到的公共工具方法
+存放位置
+com.ceit.tool.collection生成泛型的集合对象工厂方法的类
+com.ceit.tool.constant公共静态值
+com.ceit.tool.date时间相关方法
+com.ceit.tool.file文件处理
+com.ceit.tool.method反射相关方法
+com.ceit.tool.propertiesfile properties文件相关操作
+com.ceit.tool.string字符串相关操作
+com.ceit.tool.xml xml处理的方法
