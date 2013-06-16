@@ -1,0 +1,112 @@
+@charset "utf-8";
+
+/* CSS Document */ /* 
+	字体大小说明：
+	页面标题大小（titleTable）：18px;	
+	表格标题大小（subTitleTable）：16px;
+	表格内容大小：14px;
+
+ */ /*-----------------------标签各个页面body样式设置开始-----------*/
+.mainBody {
+	background: #ffffff;
+	margin: 0;
+	text-align: center;
+	overflow-y: auto;
+}
+
+div#main-wrapper {
+	padding: 12px 5px;
+	width: 769px;
+	margin: 0 auto
+}
+
+/*标签各个页面body样式设置结束*/
+	/*-------------------------------常用表格样式开始------------------------------*/
+.commonTable {
+	width: 1200;
+	border-collapse: collapse;
+	text-align: center;
+	font-size: 12;
+	word-break: keep-all;
+	border: solid #168101;
+	border-width: 1px 0px 0px 1px;
+	cellspacing: 1;
+	cellpadding: 0;
+	margin-top: 1px;
+}
+
+.commonTable th {
+	border: solid #168101;
+	border-width: 0px 1px 1px 0px;
+	font-size: 12px;
+	background: #6baa6b;
+	font-weight: bold;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	color: #000;
+	cursor: default;
+}
+
+.commonTable td {
+	border: solid #168101;
+	border-width: 0px 1px 1px 0px;
+	padding-left: 10px;
+	height: 25px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+/*fusionchart 外层表格*/
+#fusionchartTable {
+	width: 1200;
+	margin-top: 0px;
+	text-align: center;
+	border-collapse: collapse;
+}
+
+.title{
+	width:1200;
+	height:26;
+	line-height:26px;
+	margin-top: 10px;
+	border-collapse:collapse;
+	text-align:left;
+	vertical-align:middle;
+	background:#6baa6b;
+	font-size:16px;
+	color:#fff;
+	margin:0 auto;
+	border:10px;padding:0px;
+	margin-top:10px;
+	padding-left:10;
+	font-weight:900;
+	
+}
+
+
+.builder{
+	width:1200;
+	height:36;
+	line-height:36px;
+	margin-top: 10px;
+	border-collapse:collapse;
+	text-align:left;
+	vertical-align:middle;
+	font-size:13px;
+	color:#000;
+	margin:0 auto;
+	border:10px;padding:0px;
+	margin-top:10px;
+	padding-left:10;
+	font-weight:900;
+
+	
+}
+
+.builder select{
+	font-size:12px;
+}
