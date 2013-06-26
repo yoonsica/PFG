@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.ceit.ico.dao.NativeQueryDao;
-import com.ceit.ico.dto.CodeNameDTO;
+import com.vic.beans.CodeName;
 
 @Stateless
 public class NativeQueryDaoImpl implements NativeQueryDao {
@@ -32,10 +32,10 @@ public class NativeQueryDaoImpl implements NativeQueryDao {
 	}	
 	
 	@Override
-	public List<CodeNameDTO> getCodeNameDTOList(String id, boolean addAll) {
-		List<CodeNameDTO> codeNameDTOList = new ArrayList<CodeNameDTO>();
+	public List<CodeName> getCodeNameDTOList(String id, boolean addAll) {
+		List<CodeName> codeNameDTOList = new ArrayList<CodeName>();
 		if (addAll) {
-			CodeNameDTO allClassDTO = new CodeNameDTO();
+			CodeName allClassDTO = new CodeName();
 			allClassDTO.setName("全部");
 			allClassDTO.setCode("-1");
 			codeNameDTOList.add(allClassDTO);
@@ -45,7 +45,7 @@ public class NativeQueryDaoImpl implements NativeQueryDao {
 		@SuppressWarnings("unchecked")
 		List<Object[]> tempList = query.getResultList();	
 		for (Object[] objects : tempList) {
-			CodeNameDTO dto = new CodeNameDTO();
+			CodeName dto = new CodeName();
 			dto.setCode((String) objects[0]);
 			dto.setName((String) objects[1]);
 			codeNameDTOList.add(dto);

@@ -3,7 +3,7 @@ package com.ceit.ico.dao;
 import java.util.List;
 import javax.ejb.Remote;
 
-import com.ceit.ico.dto.CodeNameDTO;
+import com.vic.beans.CodeName;
 
 @Remote
 public interface NativeQueryDao {
@@ -28,7 +28,7 @@ public interface NativeQueryDao {
 	 * @param addAll 是否添加全部（code=-1）
 	 * @return
 	 */
-	public List<CodeNameDTO> getCodeNameDTOList(String id, boolean addAll);
+	public List<CodeName> getCodeNameDTOList(String id, boolean addAll);
 
 	
 }
