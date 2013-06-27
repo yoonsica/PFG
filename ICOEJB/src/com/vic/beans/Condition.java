@@ -5,10 +5,9 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-
 
 @Entity
 @Table(name="CONDITION")
@@ -19,6 +18,8 @@ public class Condition {
 	private String name;
 	private String sqlStr;
 	private String type;
+	@ManyToMany(mappedBy="conditionList")
+	private List<Page> pageList;
 	@Transient
 	private List<CodeName> dataList;
 	
@@ -51,5 +52,11 @@ public class Condition {
 	}
 	public void setDataList(List<CodeName> dataList) {
 		this.dataList = dataList;
+	}
+	public List<Page> getPageList() {
+		return pageList;
+	}
+	public void setPageList(List<Page> pageList) {
+		this.pageList = pageList;
 	}
 }
