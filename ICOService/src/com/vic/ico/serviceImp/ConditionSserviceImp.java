@@ -11,6 +11,7 @@ import com.vic.beans.CodeName;
 import com.vic.beans.Condition;
 import com.vic.ico.service.ConditionService;
 import com.vic.ico.types.ConditionType;
+import com.vic.ico.utils.GetInitialContext;
 
 public class ConditionSserviceImp implements ConditionService {
 
@@ -18,7 +19,7 @@ public class ConditionSserviceImp implements ConditionService {
 	public List<String> getConditionsHtml(String pageId) {
 		List<String> resultList = new ArrayList<String>();
 		try {
-			InitialContext ctx = new InitialContext();
+			InitialContext ctx = GetInitialContext.getContext();
 			ConditionQueryDao conditionQueryDao = (ConditionQueryDao) ctx
 					.lookup("ConditionQueryDaoImp/remote");
 			List<Condition> list = conditionQueryDao.getConditions(pageId);
