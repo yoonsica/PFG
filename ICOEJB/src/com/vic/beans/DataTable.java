@@ -1,5 +1,7 @@
 package com.vic.beans;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,18 +13,17 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="DATATABLE")
-public class DataTable {
-	@Id
-	@GeneratedValue
+public class DataTable implements Serializable{
 	private String tableId;
 	private String tableName;
 	private String tableType;
 	private String tHead;
 	private String sqlStr;
-	@ManyToMany(mappedBy="tableList")
-	private List<Page> pageList;
-	@Transient
+	private List<Page> pageList = new ArrayList<Page>();
 	private List<Object[]> dataList;
+	
+	@Id
+	@GeneratedValue
 	public String getTableId() {
 		return tableId;
 	}
@@ -53,12 +54,15 @@ public class DataTable {
 	public void setSqlStr(String sqlStr) {
 		this.sqlStr = sqlStr;
 	}
+	@ManyToMany(mappedBy="tableList")
 	public List<Page> getPageList() {
 		return pageList;
 	}
 	public void setPageList(List<Page> pageList) {
 		this.pageList = pageList;
 	}
+	
+	@Transient
 	public List<Object[]> getDataList() {
 		return dataList;
 	}

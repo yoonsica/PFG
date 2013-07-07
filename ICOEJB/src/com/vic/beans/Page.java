@@ -1,5 +1,7 @@
 package com.vic.beans;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,24 +16,16 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="PAGE")
-public class Page {
-	@Id
-	@GeneratedValue
+public class Page implements Serializable{
 	private String pageId;
 	private String pageUrl;
 	private String pageName;
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinTable(name="Page_Condition",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
-	inverseJoinColumns={ @JoinColumn(name = "conditionId", referencedColumnName = "conditionId") })
-	private List<Condition> conditionList;
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinTable(name="Page_Chart",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
-	inverseJoinColumns={ @JoinColumn(name = "chartId", referencedColumnName = "chartId") })
-	private List<Chart> chartList;
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinTable(name="Page_Table",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
-	inverseJoinColumns={ @JoinColumn(name = "tableId", referencedColumnName = "tableId") })
-	private List<DataTable> tableList;
+	private List<Condition> conditionList = new ArrayList<Condition>();
+	private List<Chart> chartList = new ArrayList<Chart>();
+	private List<DataTable> tableList = new ArrayList<DataTable>();
+	
+	@Id
+	@GeneratedValue
 	public String getPageId() {
 		return pageId;
 	}
@@ -44,18 +38,30 @@ public class Page {
 	public void setPageName(String pageName) {
 		this.pageName = pageName;
 	}
+	
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name="Page_Condition",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
+	inverseJoinColumns={ @JoinColumn(name = "conditionId", referencedColumnName = "conditionId") })
 	public List<Condition> getConditionList() {
 		return conditionList;
 	}
 	public void setConditionList(List<Condition> conditionList) {
 		this.conditionList = conditionList;
 	}
+	
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name="Page_Chart",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
+	inverseJoinColumns={ @JoinColumn(name = "chartId", referencedColumnName = "chartId") })
 	public List<Chart> getChartList() {
 		return chartList;
 	}
 	public void setChartList(List<Chart> chartList) {
 		this.chartList = chartList;
 	}
+	
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name="Page_DataTable",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
+	inverseJoinColumns={ @JoinColumn(name = "tableId", referencedColumnName = "tableId") })
 	public List<DataTable> getTableList() {
 		return tableList;
 	}

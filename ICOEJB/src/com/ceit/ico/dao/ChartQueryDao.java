@@ -8,5 +8,5 @@ import com.vic.beans.Chart;
 
 @Remote
 public interface ChartQueryDao {
-	public List<Chart> getConditions(String pageId);
+	public List<Chart> getCharts(String pageId);
 }

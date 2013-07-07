@@ -17,7 +17,6 @@ public class NativeQueryDaoImpl implements NativeQueryDao {
 	@PersistenceContext
 	protected EntityManager entityManager;
 
-	@Override
 	public String getQuerySql(String functionId,String queryTypeId) {
 		String sql = "select t.query from fz_query t where t.function_id="
 				+ functionId + " and t.query_type_id=" + queryTypeId;
@@ -25,13 +24,11 @@ public class NativeQueryDaoImpl implements NativeQueryDao {
 		return (String) query.getSingleResult();
 	}
 
-	@Override
 	public String getConditionSql(String id) {
 		Query query = entityManager.createNativeQuery("select t.query from FZ_CONDITION t where t.id=" + id);
 		return (String) query.getSingleResult();
 	}	
 	
-	@Override
 	public List<CodeName> getCodeNameDTOList(String id, boolean addAll) {
 		List<CodeName> codeNameDTOList = new ArrayList<CodeName>();
 		if (addAll) {
