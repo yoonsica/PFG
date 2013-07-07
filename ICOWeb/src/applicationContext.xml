@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<util:properties id="evn" location="/WEB-INF/jndi.properties"></util:properties>
+	<jee:jndi-lookup jndi-name="ConditionDaoImpl/remote"
+    	id="conditionDao" lookup-on-startup="true" cache="true"
+    	proxy-interface="com.ceit.ico.dao.ConditionDao"
+    	environment-ref="evn"/>
+    <jee:jndi-lookup jndi-name="CodeNameDaoImpl/remote"
+    	id="codeNameDao" lookup-on-startup="true" cache="true"
+    	proxy-interface="com.ceit.ico.dao.CodeNameDao"
+    	environment-ref="evn"/>
+    	
+     <bean id="conditionService" class="com.vic.ico.serviceImp.ConditionServiceImp" >
+    		<property name="conditionDao" ref="conditionDao"></property>
+    		<property name="codeNameDao" ref="codeNameDao"></property>
+     </bean>	
+     
+     <bean id="codeNameService" class="com.vic.ico.serviceImp.CodeNameServiceImp">
+    		<property name="codeNameDao" ref="codeNameDao"></property>
+     </bean>
+   	
+   	<bean id="conditionAdd" class="com.vic.ico.action.AddConditionAction" scope="prototype">
+    	<property name="codeNameService" ref="codeNameService"></property>
+    	<property name="conditionService" ref="conditionService"></property>
+    </bean>
+    
+    <bean id="icoConfigAction" class="com.vic.ico.action.ICOConfigAction" scope="prototype">
+    	<property name="conditionService" ref="conditionService"/>
+    </bean>
+</beans>
