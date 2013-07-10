@@ -8,7 +8,12 @@ public interface ConditionService {
 	//直接生成html坏处是不能统一修改，下面增加两个接口，传对象到js进行解析，这样方便统一修改
 	public List<String> getConditionsHtmlByPageId(String pageId);
 	public List<String> getAllConditionsHtml();
-	
+	/**
+	 * 根据ConditionId获得Condition对象
+	 * @param conditionId
+	 * @return
+	 */
+	public Condition getConditionById(String conditionId);
 	public List<Condition> getConditionsByPageId(String pageId);
 	public List<Condition> getAllConditions();
 	/**
@@ -19,5 +24,7 @@ public interface ConditionService {
 	 * @param items 供选择的条目列表
 	 * @return 是否添加成功
 	 */
-	public boolean addNewCondition(String name,String label,String type,String[] items);
+	public boolean addNewCondition(String name,String lable,String type,String[] items);
+	public void updateCondition(String conditionId, String name, String lable,
+			String type, String[] codeNameSelected);
 }

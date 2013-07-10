@@ -1,7 +1,9 @@
 package com.vic.ico.serviceImp;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.ceit.ico.dao.CodeNameDao;
 import com.ceit.ico.dao.ConditionDao;
@@ -29,14 +31,13 @@ public class ConditionServiceImp implements ConditionService {
 	@Override
 	public List<String> getConditionsHtmlByPageId(String pageId) {
 		List<String> resultList = new ArrayList<String>();
-		List<Condition> list = conditionDao.getConditionsByPageId(pageId);
+		Set<Condition> list = conditionDao.getConditionsByPageId(pageId);
 		for (Condition condition : list) {
 			if (condition.getType().equals("select")) {
 				resultList.add(getSelectHtml(condition));
-			} else if (condition.getType().equals(ConditionType.checkbox)) {
-				resultList.add(getCheckBoxHtml(condition.getCodeNameList(),
-						condition.getName()));
-			}else if (condition.getType().equals(ConditionType.dateInternal)) {
+			} else if (condition.getType().equals("checkbox")) {
+				resultList.add(getCheckBoxHtml(condition));
+			}else if (condition.getType().equals("dateTimePicker")) {
 				resultList.add(getDateInternalHtml(condition));
 			}
 		}
@@ -54,10 +55,10 @@ public class ConditionServiceImp implements ConditionService {
 		StringBuilder sb = new StringBuilder(
 				"<div class=\"conditionDiv\"><label for=\"")
 				.append(condition.getName()).append("\">")
-				.append(condition.getLable()).append("</label><select id=\"")
+				.append(condition.getLabel()).append("</label><select id=\"")
 				.append(condition.getName()).append("\">");
 		sb.append("<option value=\"all\">全部</option>");
-		for (CodeName codeName : condition.getCodeNameList()) {
+		for (CodeName codeName : condition.getCodeNameSet()) {
 			sb.append("<option value=\"").append(codeName.getCode())
 					.append("\">").append(codeName.getName())
 					.append("</option>");
@@ -73,13 +74,13 @@ public class ConditionServiceImp implements ConditionService {
 	 * @param name
 	 * @return
 	 */
-	private String getCheckBoxHtml(List<CodeName> dataList, String name) {
+	private String getCheckBoxHtml(Condition condition) {
 		return null;
 	}
 	
 	private String getDateInternalHtml(Condition condition){
 		StringBuilder sb = new StringBuilder("<div class=\"conditionDiv\"><label for=\"");
-		sb.append(condition.getName()).append("\">").append(condition.getLable()).append("</label>");
+		sb.append(condition.getName()).append("\">").append(condition.getLabel()).append("</label>");
 		sb.append("<input id=\"").append(condition.getName()).append("\" class=\"easyui-datebox\" readonly=\"true\" required=\"required\" value=\"2013-12-31\" />");
 		return sb.toString();
 	}
@@ -92,8 +93,7 @@ public class ConditionServiceImp implements ConditionService {
 			if (condition.getType().equals("select")) {
 				resultList.add(getSelectHtml(condition));
 			} else if (condition.getType().equals(ConditionType.checkbox)) {
-				resultList.add(getCheckBoxHtml(condition.getCodeNameList(),
-						condition.getName()));
+				resultList.add(getCheckBoxHtml(condition));
 			}else if (condition.getType().equals(ConditionType.dateInternal)) {
 				resultList.add(getDateInternalHtml(condition));
 			}
@@ -106,26 +106,46 @@ public class ConditionServiceImp implements ConditionService {
 			String[] items) {
 		//本来用的是List<String>的参数，结果报异常，困扰一天，list是可以序列化的，但是里面的string是不能序列化的，所以报错。
 		Condition condition = new Condition();
-		condition.setLable(label);
+		condition.setLabel(label);
 		condition.setName(name);
 		condition.setType(type);
-		if (null==conditionDao.getConditionByName(name)) {
-			List<CodeName> list = codeNameDao.getCodeNamesByCodes(items);
-			condition.setCodeNameList(list);
-			if (conditionDao.insertNewCondition(condition)) {
-				return true;
+		if (type.equals("select")||type.equals("checkbox")) {
+			if (null==conditionDao.getConditionByName(name)) {
+				List<CodeName> list = codeNameDao.getCodeNamesByCodes(items);
+				condition.setCodeNameSet(new HashSet<CodeName>(list));
+				return conditionDao.insertNewCondition(condition);
+			}else {
+				System.out.println("name重复");
+				return false;
 			}
+		}else {
+			return conditionDao.insertNewCondition(condition);
 		}
-		return false;
 	}
 
 	@Override
 	public List<Condition> getConditionsByPageId(String pageId) {
-		return conditionDao.getConditionsByPageId(pageId);
+		return new ArrayList<Condition>(conditionDao.getConditionsByPageId(pageId));
 	}
 
 	@Override
 	public List<Condition> getAllConditions() {
 		return conditionDao.getAllConditions();
+	}
+
+	@Override
+	public Condition getConditionById(String conditionId) {
+		return conditionDao.getConditionById(conditionId);
+	}
+
+	@Override
+	public void updateCondition(String conditionId, String name, String lable,
+			String type, String[] codeNameSelected) {
+		if (null!=conditionId) {
+			Set<CodeName> codeNameSet = new HashSet<CodeName>(codeNameDao.getCodeNamesByCodes(codeNameSelected));
+			Condition condition = new Condition(conditionId, name, lable, type, null, codeNameSet);
+			conditionDao.update(condition);
+		}
+		
 	}
 }

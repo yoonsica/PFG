@@ -22,8 +22,14 @@ request.setAttribute("basePath", basePath);
 	-->
 	<script type="text/javascript" src="${basePath }js/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript">
+	function change(obj){
+		if(obj.value!="select"&&obj.value!="checkbox"){
+			document.getElementById("checkboxDiv").style.display="none";
+		}else{
+			document.getElementById("checkboxDiv").style.display="block";
+		}
+	}
 	$(function(){
-		//设置日期控件
 		$("#sub").click(function(){
 			query();
 		});	
@@ -44,21 +50,28 @@ request.setAttribute("basePath", basePath);
   
   <body>
   <form id="form">
-  		<div style="height:20px;width:80px;line-height:20px;float:left;">英文名称</div>
+  		<div style="height:20px;width:280px;line-height:20px;">英文名称
   		<input name="name" type="text" style="ime-mode:Disabled" onkeyup="value=value.replace(/[^\a-\z\A-\Z]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z]/g,'')"/></br>
-  		<div style="height:20px;width:80px;line-height:20px;float:left;">中文名称</div>
+  		</div>
+  		<div style="height:20px;width:280px;line-height:20px;">中文名称
   		<input name="label" type="text" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\u4E00-\u9FA5]/g,'')"/></br>
-  		<div style="height:20px;width:80px;line-height:20px;float:left;">控件类型</div>
-  		<select name="condtionType">
+  		</div>
+  		<div style="height:20px;width:280px;line-height:20px;">控件类型
+  		<select name="type" onchange="change(this)">
   			<option value="select">下拉列表</option>
   			<option value="checkbox">复选框</option>
+  			<option value="dateTimePicker">时间选择器</option>
+  			<option value="input">input</option>
   		</select>
-  		<div style="height:220px;width:80px;line-height:220px;float:left;" >
+  		</div>
+  		<div id="checkboxDiv">
+  		<div style="height:220px;width:75px;line-height:220px;float:left;" >
   			选择条目
   		</div>
   		<div style="height:220px;width:300px;overflow:auto;padding-top: 20px;" >
   			<s:checkboxlist theme="custom" template="checkboxlist.ftl" list="codeNameList" name="codeNameSelected" listValue="name" listKey="code" >
 	    	</s:checkboxlist>
+  		</div>
   		</div>
   		<input type="button" value="提交" id="sub"/></br>
   		<a href="http://user.qzone.qq.com/470614197" target="_blank"><img src="http://r.qzone.qq.com/cgi-bin/cgi_get_user_pic?openid=0000000000000000000000000ABD9B35&pic=1.jpg&key=5b67fdceb97b590fbcaf6e7601cc5eba"></a>

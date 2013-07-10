@@ -27,7 +27,7 @@
     		<property name="codeNameDao" ref="codeNameDao"></property>
      </bean>
    	
-   	<bean id="conditionAdd" class="com.vic.ico.action.AddConditionAction" scope="prototype">
+   	<bean id="conditionAction" class="com.vic.ico.action.ConditionAction" scope="prototype">
     	<property name="codeNameService" ref="codeNameService"></property>
     	<property name="conditionService" ref="conditionService"></property>
     </bean>

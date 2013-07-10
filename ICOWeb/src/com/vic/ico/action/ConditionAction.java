@@ -1,20 +1,38 @@
 package com.vic.ico.action;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.vic.beans.CodeName;
+import com.vic.beans.Condition;
 import com.vic.ico.service.CodeNameService;
 import com.vic.ico.service.ConditionService;
 
-public class AddConditionAction extends ActionSupport{
+public class ConditionAction extends ActionSupport{
 	private String name;//英文名
 	private String label;//中文名
 	private String type;//条件类型，select或者checkbox
 	private List<CodeName> codeNameList;//从数据库查出的可供选择的条目集合，用来展示给前台
 	private String[] codeNameSelected;//前台复选框用户选择的值集合
+	private String conditionId;
+	private Condition condition;
 	private CodeNameService codeNameService;
 	private ConditionService conditionService;
+	private List<String> codeChecked= new ArrayList<String>();
+	public List<String> getCodeChecked() {
+		return codeChecked;
+	}
+	public void setCodeChecked(List<String> codeChecked) {
+		this.codeChecked = codeChecked;
+	}
+	public String getConditionId() {
+		return conditionId;
+	}
+	public void setConditionId(String conditionId) {
+		this.conditionId = conditionId;
+	}
 	public ConditionService getConditionService() {
 		return conditionService;
 	}
@@ -57,6 +75,12 @@ public class AddConditionAction extends ActionSupport{
 	public void setType(String type) {
 		this.type = type;
 	}
+	public Condition getCondition() {
+		return condition;
+	}
+	public void setCondition(Condition condition) {
+		this.condition = condition;
+	}
 	@Override
 	public String execute() throws Exception {
 		System.out.println("execute");
@@ -72,5 +96,22 @@ public class AddConditionAction extends ActionSupport{
 	public String add() throws Exception{
 		conditionService.addNewCondition(name, label,type, codeNameSelected);
 		return "json";
+	}
+	
+	public String toBeEdit() throws Exception{
+	    condition = conditionService.getConditionById(conditionId);
+	    codeNameList = codeNameService.getAllCodeName();//全部可选的codeName 
+	    //设置已经选择的复选框
+	    Set<CodeName> set = condition.getCodeNameSet();
+	    for (CodeName codeName : set) {
+			codeChecked.add(codeName.getCode());
+		}
+		return "toBeEdit";
+	}
+	
+	public String edit() throws Exception{
+		System.out.println(conditionId);
+		conditionService.updateCondition(conditionId,name,label,type,codeNameSelected);
+		return SUCCESS;
 	}
 }
