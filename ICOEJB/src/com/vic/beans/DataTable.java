@@ -1,8 +1,8 @@
 package com.vic.beans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,8 +19,8 @@ public class DataTable implements Serializable{
 	private String tableType;
 	private String tHead;
 	private String sqlStr;
-	private List<Page> pageList = new ArrayList<Page>();
-	private List<Object[]> dataList;
+	private Set<Page> pageSet = new HashSet<Page>();
+	private Set<Object[]> dataSet;
 	
 	@Id
 	@GeneratedValue
@@ -54,19 +54,19 @@ public class DataTable implements Serializable{
 	public void setSqlStr(String sqlStr) {
 		this.sqlStr = sqlStr;
 	}
-	@ManyToMany(mappedBy="tableList")
-	public List<Page> getPageList() {
-		return pageList;
+	@ManyToMany(mappedBy="tableSet")
+	public Set<Page> getPageSet() {
+		return pageSet;
 	}
-	public void setPageList(List<Page> pageList) {
-		this.pageList = pageList;
+	public void setPageSet(Set<Page> pageSet) {
+		this.pageSet = pageSet;
 	}
 	
 	@Transient
-	public List<Object[]> getDataList() {
-		return dataList;
+	public Set<Object[]> getDataSet() {
+		return dataSet;
 	}
-	public void setDataList(List<Object[]> dataList) {
-		this.dataList = dataList;
+	public void setDataSet(Set<Object[]> dataSet) {
+		this.dataSet = dataSet;
 	}
 }

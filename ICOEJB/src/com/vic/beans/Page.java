@@ -1,8 +1,8 @@
 package com.vic.beans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -20,9 +20,9 @@ public class Page implements Serializable{
 	private String pageId;
 	private String pageUrl;
 	private String pageName;
-	private List<Condition> conditionList = new ArrayList<Condition>();
-	private List<Chart> chartList = new ArrayList<Chart>();
-	private List<DataTable> tableList = new ArrayList<DataTable>();
+	private Set<Condition> conditionSet = new HashSet<Condition>();
+	private Set<Chart> chartSet = new HashSet<Chart>();
+	private Set<DataTable> tableSet = new HashSet<DataTable>();
 	
 	@Id
 	@GeneratedValue
@@ -42,31 +42,31 @@ public class Page implements Serializable{
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name="Page_Condition",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
 	inverseJoinColumns={ @JoinColumn(name = "conditionId", referencedColumnName = "conditionId") })
-	public List<Condition> getConditionList() {
-		return conditionList;
+	public Set<Condition> getConditionSet() {
+		return conditionSet;
 	}
-	public void setConditionList(List<Condition> conditionList) {
-		this.conditionList = conditionList;
+	public void setConditionSet(Set<Condition> conditionSet) {
+		this.conditionSet = conditionSet;
 	}
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name="Page_Chart",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
 	inverseJoinColumns={ @JoinColumn(name = "chartId", referencedColumnName = "chartId") })
-	public List<Chart> getChartList() {
-		return chartList;
+	public Set<Chart> getChartSet() {
+		return chartSet;
 	}
-	public void setChartList(List<Chart> chartList) {
-		this.chartList = chartList;
+	public void setChartSet(Set<Chart> chartSet) {
+		this.chartSet = chartSet;
 	}
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name="Page_DataTable",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
 	inverseJoinColumns={ @JoinColumn(name = "tableId", referencedColumnName = "tableId") })
-	public List<DataTable> getTableList() {
-		return tableList;
+	public Set<DataTable> getTableSet() {
+		return tableSet;
 	}
-	public void setTableList(List<DataTable> tableList) {
-		this.tableList = tableList;
+	public void setTableSet(Set<DataTable> tableSet) {
+		this.tableSet = tableSet;
 	}
 	public String getPageUrl() {
 		return pageUrl;

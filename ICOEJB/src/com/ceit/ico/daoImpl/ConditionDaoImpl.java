@@ -1,6 +1,7 @@
 package com.ceit.ico.daoImpl;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,14 +18,13 @@ public class ConditionDaoImpl implements ConditionDao {
 	@PersistenceContext
 	protected EntityManager em;
 
-	public List<Condition> getConditionsByPageId(String pageId) {
+	public Set<Condition> getConditionsByPageId(String pageId) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("select p from Page where pageId=")
 				.append(pageId);
 		Query query = em.createQuery(sb.toString());
 		Page page = (Page) query.getSingleResult();
-		List<Condition> resultList = page.getConditionList();
-		return resultList;
+		return page.getConditionSet();
 	}
 	
 	public List<Condition> getAllConditions() {
@@ -39,9 +39,16 @@ public class ConditionDaoImpl implements ConditionDao {
 		StringBuilder sb = new StringBuilder("from Condition t where t.name='");
 		sb.append(name).append("'");
 		Query query =em.createQuery(sb.toString());
-		return (Condition) query.getSingleResult();
+		Condition condition = (Condition) query.getSingleResult();
+		return condition;
 	}
-	
+	public Condition getConditionById(String conditionId){
+		StringBuilder sb = new StringBuilder("from Condition t where t.conditionId='");
+		sb.append(conditionId).append("'");
+		Query query =em.createQuery(sb.toString());
+		Condition condition = (Condition) query.getSingleResult();
+		return condition;
+	}
 	public boolean insertNewCondition(Condition condition) {
 		try {
 			em.persist(condition);
@@ -51,6 +58,17 @@ public class ConditionDaoImpl implements ConditionDao {
 		}
 		System.out.println("插入成功");
 		return true;
+	}
+
+	@Override
+	public void update(Condition condition) {
+		try {
+			em.merge(condition);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 

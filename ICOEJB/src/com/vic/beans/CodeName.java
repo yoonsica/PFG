@@ -1,8 +1,8 @@
 package com.vic.beans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +22,7 @@ public class CodeName implements Serializable{
 	private String code;
 	private String name;
 	private int display;
-	private List<Condition> conditionList = new ArrayList<Condition>();
+	private Set<Condition> conditionSet = new HashSet<Condition>();
 	
 	public CodeName() {
 	}
@@ -53,12 +53,12 @@ public class CodeName implements Serializable{
 		this.name = name;
 	}
 	
-	@ManyToMany(mappedBy="codeNameList",fetch=FetchType.EAGER)
-	public List<Condition> getConditionList() {
-		return conditionList;
+	@ManyToMany(mappedBy="codeNameSet",fetch=FetchType.EAGER)
+	public Set<Condition> getConditionSet() {
+		return conditionSet;
 	}
-	public void setConditionList(List<Condition> conditionList) {
-		this.conditionList = conditionList;
+	public void setConditionSet(Set<Condition> conditionSet) {
+		this.conditionSet = conditionSet;
 	}
 	
 	/*@Override

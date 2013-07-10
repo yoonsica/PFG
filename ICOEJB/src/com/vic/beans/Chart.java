@@ -1,8 +1,9 @@
 package com.vic.beans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +17,7 @@ public class Chart implements Serializable {
 	private String chartName;
 	private String chartType;
 	private String sqlStr;
-	private List<Page> pageList = new ArrayList<Page>();
+	private Set<Page> pageSet = new HashSet<Page>();
 	
 	@Id
 	@GeneratedValue
@@ -44,11 +45,11 @@ public class Chart implements Serializable {
 	public void setSqlStr(String sqlStr) {
 		this.sqlStr = sqlStr;
 	}
-	@ManyToMany(mappedBy="chartList")
-	public List<Page> getPageList() {
-		return pageList;
+	@ManyToMany(mappedBy="chartSet")
+	public Set<Page> getPageSet() {
+		return pageSet;
 	}
-	public void setPageList(List<Page> pageList) {
-		this.pageList = pageList;
+	public void setPageSet(Set<Page> pageSet) {
+		this.pageSet = pageSet;
 	}
 }
