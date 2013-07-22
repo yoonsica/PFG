@@ -40,7 +40,7 @@ request.setAttribute("basePath", basePath);
 				url:"${basePath }conditionAdd.action",
 				data:paraStr,
 				success:function(data){
-					alert("s");
+					alert("添加成功！");
 				}
 			});
 		}

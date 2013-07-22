@@ -3,14 +3,25 @@ package com.vic.ico.action;
 import java.util.List;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.vic.beans.Chart;
 import com.vic.beans.Condition;
+import com.vic.ico.service.ChartService;
 import com.vic.ico.service.ConditionService;
 
 public class ICOConfigAction extends ActionSupport {
 	private ConditionService conditionService;
+	private ChartService chartService;
+	private List<Chart> chartList;
 	private List<String> conditionHTMLList;
 	private List<Condition> conditionList;
 	private List<String> conditionChecked;//条件选择复选框的值集合
+	private List<String> chartChecked;
+	public List<String> getChartChecked() {
+		return chartChecked;
+	}
+	public void setChartChecked(List<String> chartChecked) {
+		this.chartChecked = chartChecked;
+	}
 	public List<String> getConditionChecked() {
 		return conditionChecked;
 	}
@@ -35,6 +46,16 @@ public class ICOConfigAction extends ActionSupport {
 	public void setConditionHTMLList(List<String> conditionHTMLList) {
 		this.conditionHTMLList = conditionHTMLList;
 	}
+	public void setChartService(ChartService chartService) {
+		this.chartService = chartService;
+	}
+	
+	public List<Chart> getChartList() {
+		return chartList;
+	}
+	public void setChartList(List<Chart> chartList) {
+		this.chartList = chartList;
+	}
 	@Override
 	public String execute() throws Exception {
 		//conditionHTMLList = conditionService.getAllConditionsHtml();
@@ -49,8 +70,9 @@ public class ICOConfigAction extends ActionSupport {
 	
 	public String getJson() throws Exception{
 		System.out.println("getJson()");
-		conditionList = conditionService.getAllConditions();
-		return "json";
+		setConditionList(conditionService.getAllConditions());
+		chartList = chartService.getAllCharts();
+		return "icojson";
 	}
 
 }
