@@ -1,17 +1,71 @@
 package com.vic.fusioncharts;
 
-import java.util.Set;
-
-public class DataSet {
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+@Entity
+@Table(name="DATASET")
+public class DataSet implements Serializable{
+	private String id;
 	private String seriesName;
 	private String showValues;
-	private Set<String> values;
-	
-	public DataSet(String seriesName, String showValues, Set<String> values) {
+	private List<String> values;
+	private String dataSetSql;
+	@Id
+	@GeneratedValue
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getSeriesName() {
+		return seriesName;
+	}
+
+	public void setSeriesName(String seriesName) {
+		this.seriesName = seriesName;
+	}
+
+	public String getShowValues() {
+		return showValues;
+	}
+
+	public void setShowValues(String showValues) {
+		this.showValues = showValues;
+	}
+
+	@Transient
+	public List<String> getValues() {
+		return values;
+	}
+
+	public void setValues(List<String> values) {
+		this.values = values;
+	}
+
+	@Column(length=1024)
+	public String getDataSetSql() {
+		return dataSetSql;
+	}
+
+	public void setDataSetSql(String dataSetSql) {
+		this.dataSetSql = dataSetSql;
+	}
+
+	public DataSet(){}
+
+	public DataSet(String seriesName, String dataSetSql) {
 		super();
 		this.seriesName = seriesName;
-		this.showValues = showValues;
-		this.values = values;
+		this.dataSetSql = dataSetSql;
 	}
 
 	public String dataSetToXMLString(){

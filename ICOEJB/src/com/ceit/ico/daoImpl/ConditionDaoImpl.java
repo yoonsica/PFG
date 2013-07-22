@@ -38,9 +38,20 @@ public class ConditionDaoImpl implements ConditionDao {
 	public Condition getConditionByName(String name){
 		StringBuilder sb = new StringBuilder("from Condition t where t.name='");
 		sb.append(name).append("'");
-		Query query =em.createQuery(sb.toString());
-		Condition condition = (Condition) query.getSingleResult();
-		return condition;
+		try {
+			Query query =em.createQuery(sb.toString());
+			if (null==query.getResultList()) {
+				return null;
+			}else {
+				Condition condition = (Condition) query.getSingleResult();
+				return condition;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 	public Condition getConditionById(String conditionId){
 		StringBuilder sb = new StringBuilder("from Condition t where t.conditionId='");

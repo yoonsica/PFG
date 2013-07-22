@@ -18,9 +18,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name="CONDITION")
 public class Condition implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5684724157296460963L;
 	private String conditionId;
 	private String name;//英文名，页面里用作控件id，要求唯一

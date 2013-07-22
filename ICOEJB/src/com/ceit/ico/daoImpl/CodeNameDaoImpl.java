@@ -16,6 +16,16 @@ public class CodeNameDaoImpl implements CodeNameDao{
 	protected EntityManager entityManager;
 	
 	public List<CodeName> getAllCodeNames() {
+	/*	Query query1 = entityManager.createNativeQuery("select t.name,t.code from device.DEVTYPEMAP t");
+		List<Object[]> tempList = query1.getResultList();
+		for (Object[] objects : tempList) {
+			CodeName temp = new CodeName();
+			temp.setCode(String.valueOf(objects[1]));
+			temp.setName(String.valueOf(objects[0]));
+			temp.setDisplay(0);
+			entityManager.persist(temp);
+		}
+		System.out.println("OK");*/
 		Query query = entityManager.createQuery("from CodeName where display>0 order by code");
 		return query.getResultList();
 	}
@@ -23,7 +33,7 @@ public class CodeNameDaoImpl implements CodeNameDao{
 	//没用到，不打算让用户插入条目。
 	public boolean insertCodeName(CodeName codeName) {
 		//第一次录入
-		/*Query query1 = entityManager.createNativeQuery("select t.name,t.code,t.display from device.volmap t");
+		/*Query query1 = entityManager.createNativeQuery("select t.name,t.code,t.display from device.DEVTYPEMAP t");
 		List<Object[]> tempList = query1.getResultList();
 		for (Object[] objects : tempList) {
 			CodeName temp = new CodeName();
