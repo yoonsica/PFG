@@ -31,10 +31,10 @@ request.setAttribute("basePath", basePath);
 			var paraStr=$("#form").serialize();
 			$.ajax({
 				type:"POST",
-				url:"${basePath }conditionEdit.action",
+				url:"${basePath }condition!edit",
 				data:paraStr,
 				success:function(data){
-					alert("s");
+					alert("更新成功！");
 				}
 			});
 		}

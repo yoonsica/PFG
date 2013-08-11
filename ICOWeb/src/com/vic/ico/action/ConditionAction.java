@@ -81,11 +81,10 @@ public class ConditionAction extends ActionSupport{
 	public void setCondition(Condition condition) {
 		this.condition = condition;
 	}
-	@Override
-	public String execute() throws Exception {
+	public String toConditionAdd() throws Exception {
 		System.out.println("execute");
 		codeNameList = codeNameService.getAllCodeName();//这里需要获取所有的codeName
-		return SUCCESS;
+		return "toConditionAdd";
 	}
 	
 	/**
@@ -95,7 +94,7 @@ public class ConditionAction extends ActionSupport{
 	 */
 	public String add() throws Exception{
 		conditionService.addNewCondition(name, label,type, codeNameSelected);
-		return "json";
+		return "add";
 	}
 	
 	public String toBeEdit() throws Exception{
@@ -112,6 +111,6 @@ public class ConditionAction extends ActionSupport{
 	public String edit() throws Exception{
 		System.out.println(conditionId);
 		conditionService.updateCondition(conditionId,name,label,type,codeNameSelected);
-		return SUCCESS;
+		return "edit";
 	}
 }

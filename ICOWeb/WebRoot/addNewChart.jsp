@@ -22,13 +22,14 @@ request.setAttribute("basePath", basePath);
 	-->
 	<script type="text/javascript" src="${basePath }js/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript">
+	var chartTypeArray = ["MSColumn2D","Pie2D","MSStackedColumn2DLineDY"];
 	function change(obj){
-		if(obj.value =="Pie2D"){
-			document.getElementById("MSStackedColumn2DLineDYDiv").style.display="none";
-			document.getElementById("Pie2DDiv").style.display="block";
-		}else if(obj.value =="MSStackedColumn2DLineDY"){
-			document.getElementById("Pie2DDiv").style.display="none";
-			document.getElementById("MSStackedColumn2DLineDYDiv").style.display="block";
+		for(var i=0;i<chartTypeArray.length;i++){
+			if(obj.value == chartTypeArray[i]){
+				document.getElementById(chartTypeArray[i]+"Div").style.display="block";
+			}else{
+				document.getElementById(chartTypeArray[i]+"Div").style.display="none";
+			}
 		}
 	}
 	
@@ -42,6 +43,7 @@ request.setAttribute("basePath", basePath);
 	
 	$(function(){
 		document.getElementById("MSStackedColumn2DLineDYDiv").style.display="none";
+		document.getElementById("MSColumn2DDiv").style.display="none";
 		document.getElementById("Pie2DDiv").style.display="block";
 		$("#sub").click(function(){
 			query();
@@ -50,7 +52,7 @@ request.setAttribute("basePath", basePath);
 			var paraStr=$("#form").serialize();
 			$.ajax({
 				type:"POST",
-				url:"${basePath }chartAdd.action",
+				url:"${basePath }chart!add",
 				data:paraStr,
 				success:function(data){
 					alert("添加成功！");
@@ -63,9 +65,10 @@ request.setAttribute("basePath", basePath);
   
   <body>
   <form id="form">
-  		<div style="height:20px;width:280px;line-height:20px;">控件类型
+  		<div style="height:20px;width:280px;line-height:20px;">图类型
   		<select name="chartType" onchange="change(this)">
   			<option value="Pie2D">Pie2D</option>
+  			<option value="MSColumn2D">MSColumn2D</option>
   			<option value="MSStackedColumn2DLineDY">MSStackedColumn2DLineDY</option>
   		</select>
   		</div>
@@ -97,34 +100,71 @@ request.setAttribute("basePath", basePath);
   					<td>categoriesSql</td><td><textarea name="MSStackedColumn2DLineDY_categoriesSql" type="text" style="ime-mode:Disabled" cols="60" rows="10"></textarea></td>
   				</tr>
   			</table>
-  			<div id="dataSetDiv">
+  			<div id="MSStackedColumn2DLineDY_dataSetDiv">
 	  		<table>
 	  			<tr>
 	  				<td>dataSet_seriesName</td><td><input type="text" name="MSStackedColumn2DLineDY_dataSet_seriesName"></td>
+	  			</tr>
+	  			<tr>
+	  				<td>dataSet_color</td><td><input type="text" name="MSStackedColumn2DLineDY_dataSet_color"></td>
 	  			</tr>
 	  			<tr>
 					<td>dataSetSql</td><td><textarea name="MSStackedColumn2DLineDY_dataSetsSql" type="text" style="ime-mode:Disabled" cols="60" rows="10"></textarea></td>
 	  			</tr>
 	  		</table>
 	  	</div>
-  		<div id="dataSetsDiv">
+  		<div id="MSStackedColumn2DLineDY_dataSetsDiv">
   		</div>
-  		<input type="button" value="添加dataset" onclick="addSet(dataSetsDiv,dataSetDiv)">
-  		<div id="lineSetDiv">
+  		<input type="button" value="添加dataset" onclick="addSet(MSStackedColumn2DLineDY_dataSetsDiv,MSStackedColumn2DLineDY_dataSetDiv)">
+  		<div id="MSStackedColumn2DLineDY_lineSetDiv">
 	  		<table>
 	  			<tr>
 	  				<td>lineSet_seriesName</td><td><input type="text" name="MSStackedColumn2DLineDY_lineSet_seriesName"></td>
+	  			</tr>
+	  			<tr>
+	  				<td>lineSet_color</td><td><input type="text" name="MSStackedColumn2DLineDY_lineSet_color"></td>
 	  			</tr>
 	  			<tr>
   					<td>lineSetSql</td><td><textarea name="MSStackedColumn2DLineDY_lineSetsSql" type="text" style="ime-mode:Disabled" cols="60" rows="10"></textarea></td>
   				</tr>
 	  		</table>
   		</div>
-  		<div id="lineSetsDiv">
+  		<div id="MSStackedColumn2DLineDY_lineSetsDiv">
   		</div>
-  		<input type="button" value="添加lineSet" onclick="addSet(lineSetsDiv,lineSetDiv)">
+  		<input type="button" value="添加lineSet" onclick="addSet(MSStackedColumn2DLineDY_lineSetsDiv,MSStackedColumn2DLineDY_lineSetDiv)">
   		</div>
   		
+  		<div id="MSColumn2DDiv">
+  			<table>
+  				<tr>
+  					<td>caption</td><td><input name="MSColumn2D_caption" type="text"></td>
+  				</tr>
+  				<tr>
+  					<td>xAxisName</td><td><input name="MSColumn2D_xAxisName" type="text"></td>
+  				</tr>
+  				<tr>
+  					<td>yAxisName</td><td><input name="MSColumn2D_yAxisName" type="text"></td>
+  				</tr>
+  				<tr>
+  					<td>categoriesSql</td><td><textarea name="MSColumn2D_categoriesSql" type="text" style="ime-mode:Disabled" cols="60" rows="10"></textarea></td>
+  				</tr>
+  			</table>
+  			<div id="MSColumn2D_dataSetDiv">
+	  		<table>
+	  			<tr>
+	  				<td>dataSet_seriesName</td><td><input type="text" name="MSColumn2D_dataSet_seriesName"></td>
+	  			</tr>
+	  			<tr>
+	  				<td>dataSet_color</td><td><input type="text" name="MSColumn2D_dataSet_color"></td>
+	  			</tr>
+	  			<tr>
+					<td>dataSetSql</td><td><textarea name="MSColumn2D_dataSetsSql" type="text" style="ime-mode:Disabled" cols="60" rows="10"></textarea></td>
+	  			</tr>
+	  		</table>
+	  	</div>
+  		<div id="MSColumn2D_dataSetsDiv">
+  		</div>
+  		<input type="button" value="添加dataset" onclick="addSet(MSColumn2D_dataSetsDiv,MSColumn2D_dataSetDiv)">
   		<input type="button" value="提交" id="sub"/></br>
   		<a href="http://user.qzone.qq.com/470614197" target="_blank"><img src="http://r.qzone.qq.com/cgi-bin/cgi_get_user_pic?openid=0000000000000000000000000ABD9B35&pic=1.jpg&key=5b67fdceb97b590fbcaf6e7601cc5eba"></a>
   	</form>

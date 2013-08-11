@@ -37,7 +37,7 @@ request.setAttribute("basePath", basePath);
 			var paraStr=$("#form").serialize();
 			$.ajax({
 				type:"POST",
-				url:"${basePath }conditionAdd.action",
+				url:"${basePath }condition!add",
 				data:paraStr,
 				success:function(data){
 					alert("添加成功！");

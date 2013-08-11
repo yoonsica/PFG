@@ -5,17 +5,35 @@ import java.util.List;
 import com.opensymphony.xwork2.ActionSupport;
 import com.vic.beans.Chart;
 import com.vic.beans.Condition;
+import com.vic.beans.DataTable;
 import com.vic.ico.service.ChartService;
 import com.vic.ico.service.ConditionService;
+import com.vic.ico.service.TableService;
 
 public class ICOConfigAction extends ActionSupport {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1680771922589168690L;
 	private ConditionService conditionService;
 	private ChartService chartService;
+	private TableService tableService;
 	private List<Chart> chartList;
+	private List<DataTable> tableList;
 	private List<String> conditionHTMLList;
 	private List<Condition> conditionList;
 	private List<String> conditionChecked;//条件选择复选框的值集合
 	private List<String> chartChecked;
+	
+	public void setTableService(TableService tableService) {
+		this.tableService = tableService;
+	}
+	public List<DataTable> getTableList() {
+		return tableList;
+	}
+	public void setTableList(List<DataTable> tableList) {
+		this.tableList = tableList;
+	}
 	public List<String> getChartChecked() {
 		return chartChecked;
 	}
@@ -56,23 +74,12 @@ public class ICOConfigAction extends ActionSupport {
 	public void setChartList(List<Chart> chartList) {
 		this.chartList = chartList;
 	}
-	@Override
-	public String execute() throws Exception {
-		//conditionHTMLList = conditionService.getAllConditionsHtml();
-		System.out.println(conditionChecked);
-		
-	/*	根据conditionChecked获得Condition集合，然后给page的Conditionset赋值
-	 * 	List<Condition> list = 
-		Page page = new Page();
-		page.setConditionSet(new HashSet<Condition>(conditionChecked));*/
-		return SUCCESS;
-	}
 	
-	public String getJson() throws Exception{
-		System.out.println("getJson()");
-		setConditionList(conditionService.getAllConditions());
+	public String toAddPage() throws Exception{
+		conditionList = conditionService.getAllConditions();
 		chartList = chartService.getAllCharts();
-		return "icojson";
+		tableList = tableService.getAllTables();
+		return "toAddPage";
 	}
 
 }

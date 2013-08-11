@@ -23,6 +23,7 @@
 <link rel="stylesheet" type="text/css" href="${basePath}JQuery/themes/icon.css">
 <script type="text/javascript" src="${basePath}JQuery/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="${basePath}JQuery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${basePath}js/FusionCharts.js"></script>
 <style>
 body {
 	margin: auto; /* center in viewport */
@@ -46,6 +47,33 @@ body {
 	padding-left: 5px;
 	padding-right: 5px;
 	line-height: 50px;
+}
+.chartDiv{
+	float: left;
+}
+.tableDiv{
+	float:left;
+}
+.tablesDiv{
+	width:960px;
+}
+
+.tableDiv table{
+	width:"100%";
+	border-collapse:collapse;
+	border:1px solid black;
+	text-align:center;
+	font-size:12;
+}
+.tableDiv table th{
+	font-size:12px;	
+	border:1px solid black;
+	background:#6baa6b;
+	font-weight:bold;
+	height:25px;
+}
+.tableDiv table td{
+	border:1px solid black;
 }
 </style>
 <script type="text/javascript">
@@ -76,7 +104,7 @@ function conditionHandler(data){
 		}else if(condition.type=="dateTimePicker"){
 			conditionHTML += "<input id='"+condition.name+"' type='text' name='"+condition.name+"' />";
 		}
-		conditionHTML += "<a href=\"${basePath }conditionToBeEdit.action?conditionId="+condition.conditionId+"\">编辑</a></div>";
+		conditionHTML += "<a href=\"${basePath }condition!toBeEdit?conditionId="+condition.conditionId+"\">编辑</a></div>";
 	});
 	$("#conditionsDiv").html(conditionHTML);
 	$.each(data.conditionList, function(i, condition) {
@@ -88,19 +116,36 @@ function conditionHandler(data){
 	});
 }
 
-function chartHandler(data){
-	$.each(data.chartList, function(i, chart) {
-		alert(chart.caption);
-	});
-}
+	function chartHandler(data){
+		$.each(data.chartList, function(i, chart) {
+			var divId = "chartDiv"+chart.chartId;
+			$("#chartsDiv").append("<div id='"+divId+"' class='chartDiv'></div>");
+			var fschart = new FusionCharts("${basePath }/flashChart/"+chart.chartType+".swf","ChartId", "498", "340", "0", "0");
+			fschart.setDataXML(chart.chartXmlStr);
+			fschart.render(divId);
+			$("#"+divId).append("</br><input type=\"checkbox\" name=\"chartChecked\" value='"+chart.chartId+"' />"+chart.caption);
+		});
+	}
+
+	function tableHandler(data){
+		$.each(data.tableList, function(i, table) {
+			var divId = "tableDiv"+table.tableId;
+			$("#tablesDiv").append("<div id='"+divId+"' class='tableDiv'></div>");
+			$("#"+divId).html(table.tableHTML);
+			$("#"+divId).append("</br><input type=\"checkbox\" name=\"tableChecked\" value='"+table.tableId+"' />"+table.tableName);
+		});
+	}
+	
+	
 	
 	$(function() {
 		$.ajax({
 			type : "POST",
-			url : "icoConfigJson.action",
+			url : "page!toAddPage",
 			success : function(data) {
 				conditionHandler(data);
-				
+				chartHandler(data);
+				tableHandler(data);
 			}
 		});
 	})
@@ -108,10 +153,19 @@ function chartHandler(data){
 </head>
 
 <body>
-	<form action="${basePath }icoConfig.action">
+	<form action="${basePath }page!add">
+		页面名称<input type="text" name="pageName"></br>
 		查询条件
-		<a href="${basePath }toConditionAdd.action">添加</a>
+		<a href="${basePath }condition!toConditionAdd">添加</a>
 		<div class="conditionsDiv" id="conditionsDiv">
+		</div>
+		fusionChart
+		<a href="${basePath }addNewChart.jsp">添加</a>
+		<div id="chartsDiv">
+		</div>
+		<div id="tablesDiv" class="tablesDiv">
+		表格
+		<a href="${basePath }addNewTable.jsp">添加</a>
 		</div>
 		<input type="submit" value="提交">
 	</form>

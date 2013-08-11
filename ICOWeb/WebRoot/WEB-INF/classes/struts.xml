@@ -3,33 +3,32 @@
 <struts>
 <constant name="struts.objectFactory" value="spring" />
 <constant name="struts.devMode" value="true"></constant>
-	<package name="struts2" namespace="/" extends="struts-default">
-		<action name="icoConfig" class="icoConfigAction">
-			<result>/success.jsp</result>
-		</action>
-		<action name="toConditionAdd" class="conditionAction">
-			<result>/addNewCondition.jsp</result>
-		</action>
-		<action name="conditionEdit" class="conditionAction" method="edit">
-			<result>/success.jsp</result>
-		</action>
-		<action name="conditionToBeEdit" class="conditionAction" method="toBeEdit">
+	<package name="ajax" namespace="/" extends="json-default">
+	<default-action-ref name="index"></default-action-ref>
+	    <action name="index">
+	         <result type="chain">
+	         	<param name="actionName">page</param>
+                <param name="namespace">/</param>
+                <param name="method">allPages</param>
+	         </result>
+	    </action>
+		<action name="condition" class="conditionAction">
+			<result name="edit" type="json"></result>
+			<result type="json" name="add"></result>
+			<result name="toConditionAdd">/addNewCondition.jsp</result>
 			<result name="toBeEdit">/editCondition.jsp</result>
 		</action>
-		<action name="toChartAdd" class="chartAction">
-			<result>/addNewChart.jsp</result>
+		<action name="chart" class="chartAction">
+			<result type="json" name="add"></result>
 		</action>
-	</package>
-	<package name="ajax" namespace="/" extends="json-default">
-		<action name="conditionAdd" class="conditionAction" method="add">
-			<result type="json" name="json"></result>
+		<action name="table" class="tableAction" >
+			<result type="json" name="add"></result>
 		</action>
-		<action name="chartAdd" class="chartAction" method="add">
-			<result type="json" name="json"></result>
-		</action>
-		<action name="icoConfigJson" class="icoConfigAction" method="getJson">
-			<result type="json" name="icojson">
-			</result>
+		<action name="page" class="pageAction" >
+			<result type="json" name="toAddPage"></result>
+			<result name="allPages">/pages.jsp</result>
+			<result name="show" type="json"></result>
+			<result name="add" type="json"></result>
 		</action>
 	</package>
 </struts>    

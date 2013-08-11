@@ -4,10 +4,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jee="http://www.springframework.org/schema/jee"
     xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-
+	
+	
 	<util:properties id="evn" location="/WEB-INF/jndi.properties"></util:properties>
 	<jee:jndi-lookup jndi-name="ConditionDaoImpl/remote"
     	id="conditionDao" lookup-on-startup="true" cache="true"
@@ -21,13 +23,28 @@
     	id="chartDao" lookup-on-startup="true" cache="true"
     	proxy-interface="com.ceit.ico.dao.ChartDao"
     	environment-ref="evn"/>
-    	
+    <jee:jndi-lookup jndi-name="TableDaoImpl/remote"
+    	id="tableDao" lookup-on-startup="true" cache="true"
+    	proxy-interface="com.ceit.ico.dao.TableDao"
+    	environment-ref="evn"/>
+    <jee:jndi-lookup jndi-name="PageDaoImpl/remote"
+    	id="pageDao" lookup-on-startup="true" cache="true"
+    	proxy-interface="com.ceit.ico.dao.PageDao"
+    	environment-ref="evn"/>
+    
+    <bean id="tableService" class="com.vic.ico.serviceImp.TableServiceImp" >
+    		<property name="tableDao" ref="tableDao"></property>
+     </bean>
+     <bean id="tableAction" class="com.vic.ico.action.TableAction" >
+    		<property name="tableService" ref="tableService" ></property>
+     </bean>	
      <bean id="conditionService" class="com.vic.ico.serviceImp.ConditionServiceImp" >
     		<property name="conditionDao" ref="conditionDao"></property>
     		<property name="codeNameDao" ref="codeNameDao"></property>
      </bean>	
      <bean id="chartService" class="com.vic.ico.serviceImp.ChartServiceImp" >
      		<property name="chartDao" ref="chartDao"></property>
+     		<property name="handler" ref="chartHandler"></property>
      </bean>	
      <bean id="codeNameService" class="com.vic.ico.serviceImp.CodeNameServiceImp">
     		<property name="codeNameDao" ref="codeNameDao"></property>
@@ -42,8 +59,19 @@
     	<property name="chartService" ref="chartService"></property>
     </bean>
     
-    <bean id="icoConfigAction" class="com.vic.ico.action.ICOConfigAction" scope="prototype">
+    <bean id="pageAction" class="com.vic.ico.action.PageAction" scope="prototype">
+    	<property name="pageService" ref="pageService"></property>
     	<property name="conditionService" ref="conditionService"/>
-    	<property name="chartService" ref="chartService"></property>
+    	<property name="chartService" ref="chartService"/>
+    	<property name="tableService" ref="tableService"/>
+    </bean>
+    <bean id="pageService" class="com.vic.ico.serviceImp.PageServiceImp" scope="prototype">
+    	<property name="pageDao" ref="pageDao"/>
+    	<property name="chartDao" ref="chartDao"/>
+    	<property name="conditionDao" ref="conditionDao"/>
+    	<property name="tableDao" ref="tableDao"/>
+    	<property name="chartService" ref="chartService"/>
+    </bean>
+     <bean id="chartHandler" class="com.vic.ico.handler.AddChartHandler" scope="prototype">
     </bean>
 </beans>
