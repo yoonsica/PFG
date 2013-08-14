@@ -24,6 +24,11 @@
 <script type="text/javascript" src="${basePath}JQuery/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="${basePath}JQuery/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${basePath}js/FusionCharts.js"></script>
+<link rel="stylesheet" type="text/css"
+			href="${basePath }js/ext/resources/css/ext-all.css" />
+		<script type="text/javascript" src="${basePath }js/ext/adapter/ext/ext-base.js"></script>
+		<script type="text/javascript" src="${basePath }js/ext/ext-all.js"></script>
+		<script type="text/javascript" src="${basePath }js/ext/ext-lang-zh_CN.js"></script>
 <style>
 body {
 	margin: auto; /* center in viewport */
@@ -40,7 +45,7 @@ body {
 
 .conditionsDiv {
 	background-color: gray;
-	height: 300px;
+	height: auto;
 }
 
 .conditionDiv {
@@ -71,12 +76,32 @@ body {
 	background:#6baa6b;
 	font-weight:bold;
 	height:25px;
+	text-align: center;
 }
 .tableDiv table td{
 	border:1px solid black;
 }
 </style>
 <script type="text/javascript">
+Ext.onReady( function() {
+	var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
+	myMask.show();
+
+$(function() {
+	$.ajax({
+		type : "POST",
+		url : "page!toAddPage",
+		success : function(data) {
+			
+			//myMask.show();
+			conditionHandler(data);
+			chartHandler(data);
+			tableHandler(data);
+			//myMask.hide();
+		}
+	});
+})
+
 function myformatter(date){  
     var y = date.getFullYear();  
    var m = date.getMonth()+1;  
@@ -134,21 +159,11 @@ function conditionHandler(data){
 			$("#"+divId).html(table.tableHTML);
 			$("#"+divId).append("</br><input type=\"checkbox\" name=\"tableChecked\" value='"+table.tableId+"' />"+table.tableName);
 		});
+		myMask.hide();
 	}
 	
+});
 	
-	
-	$(function() {
-		$.ajax({
-			type : "POST",
-			url : "page!toAddPage",
-			success : function(data) {
-				conditionHandler(data);
-				chartHandler(data);
-				tableHandler(data);
-			}
-		});
-	})
 </script>
 </head>
 
@@ -156,7 +171,7 @@ function conditionHandler(data){
 	<form action="${basePath }page!add">
 		页面名称<input type="text" name="pageName"></br>
 		查询条件
-		<a href="${basePath }condition!toConditionAdd">添加</a>
+		<a href="${basePath }condition!toConditionAdd" target="">添加</a>
 		<div class="conditionsDiv" id="conditionsDiv">
 		</div>
 		fusionChart

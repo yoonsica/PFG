@@ -6,11 +6,12 @@
 	<package name="ajax" namespace="/" extends="json-default">
 	<default-action-ref name="index"></default-action-ref>
 	    <action name="index">
-	         <result type="chain">
+	    	<result type="redirect">/index.jsp</result>
+	        <!-- <result type="chain">
 	         	<param name="actionName">page</param>
                 <param name="namespace">/</param>
                 <param name="method">allPages</param>
-	         </result>
+	         </result> -->
 	    </action>
 		<action name="condition" class="conditionAction">
 			<result name="edit" type="json"></result>

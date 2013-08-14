@@ -19,15 +19,21 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="页面列表">
-
+<style type="text/css">
+body {
+	margin: auto; /* center in viewport */
+	width: 960px;
+}
+</style>
 </head>
-
+<center>
 <body>
+<ul>
 	<s:iterator value="pageList" var="page">
-	<a href="pageShow.jsp?pageId=<s:property value="#page.pageId"/>">
-	<s:property value="#page.pageName"/>
-	</a>
+	<li><a href="pageShow.jsp?pageId=<s:property value="#page.pageId"/>">
+	<s:property value="#page.pageName"/></a></li>
 	</s:iterator>
-	<s:debug></s:debug>
+	</ul>
 </body>
+</center>
 </html>

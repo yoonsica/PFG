@@ -26,6 +26,11 @@
 <script type="text/javascript" src="${basePath}JQuery/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="${basePath}JQuery/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${basePath}js/FusionCharts.js"></script>
+<link rel="stylesheet" type="text/css"
+			href="${basePath }js/ext/resources/css/ext-all.css" />
+		<script type="text/javascript" src="${basePath }js/ext/adapter/ext/ext-base.js"></script>
+		<script type="text/javascript" src="${basePath }js/ext/ext-all.js"></script>
+		<script type="text/javascript" src="${basePath }js/ext/ext-lang-zh_CN.js"></script>
 <style>
 body {
 	/*margin: 10px,100px,10px,100px;
@@ -90,6 +95,10 @@ body {
 }
 </style>
 <script type="text/javascript">
+Ext.onReady( function() {
+	var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
+	myMask.show();
+	
 function myformatter(date){  
     var y = date.getFullYear();  
    var m = date.getMonth()+1;  
@@ -151,6 +160,7 @@ function conditionHandler(data){
 			$("#tablesDiv").append("<div id='"+divId+"' class='tableDiv'></div>");
 			$("#"+divId).html(table.tableHTML);
 		});
+		myMask.hide();
 	}
 	
 	function init(){
@@ -169,6 +179,8 @@ function conditionHandler(data){
 	$(function() {
 		init();
 	})
+
+});
 </script>
 </head>
 <center>
@@ -182,7 +194,6 @@ function conditionHandler(data){
 	</div>
 	<div id="tablesDiv" class="tablesDiv">
 	</div>
-	<s:debug></s:debug>
 </form>
 </body>
 </center>
