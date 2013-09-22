@@ -47,18 +47,18 @@ public class ConditionDaoImpl implements ConditionDao {
 				return condition;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 		
 	}
 	public Condition getConditionById(String conditionId){
-		StringBuilder sb = new StringBuilder("from Condition t where t.conditionId='");
+		/*StringBuilder sb = new StringBuilder("from Condition t where t.conditionId='");
 		sb.append(conditionId).append("'");
 		Query query =em.createQuery(sb.toString());
 		Condition condition = (Condition) query.getSingleResult();
-		return condition;
+		return condition;*/
+		return em.find(Condition.class, conditionId);
 	}
 	public boolean insertNewCondition(Condition condition) {
 		try {

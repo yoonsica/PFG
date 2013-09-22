@@ -2,7 +2,8 @@ package com.ceit.ico.daoImpl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -86,24 +87,41 @@ public class ChartDaoImpl implements ChartDao {
 		List list =null;
 		try {
 			query = em.createNativeQuery(sql);
+			Matcher m = Pattern.compile("([.]*):([\\w]+)([\\s]*[,]*)").matcher(sql);
 			if (null==paraMap) {
-				Set paraSet = query.getParameters();
-				for (Object object : paraSet) {
-					query.setParameter((String) object, "%%");
+				while (m.find()) {
+					System.out.println(m.group(2));
+					if (m.group(2).equals("dateStart")) {
+						query.setParameter(m.group(2), "2003-1-1");
+					}else if (m.group(2).equals("dateEnd")) {
+						query.setParameter(m.group(2), "2013-1-1");
+					}else {
+						query.setParameter(m.group(2), "%%");
+					}
 				}
 			}else {
-				for(String key:paraMap.keySet()){
-					String[] paras = paraMap.get(key);
-					StringBuilder value= new StringBuilder();
-					for (String para : paras) {
-						value.append(para).append(",");
+				while (m.find()) {
+					System.out.println(m.group(1)+":"+m.group(2));
+					String[] paras = paraMap.get(m.group(2));
+					if (paras!=null&&!paras[0].equals("all")) {
+						StringBuilder value= new StringBuilder();
+						for (String para : paras) {
+							value.append(para).append(",");
+						}
+						query.setParameter(m.group(2), value.substring(0, value.length()-1));
+					}else {
+						if (m.group(2).equals("dateStart")) {
+							query.setParameter(m.group(2), "2003-1-1");
+						}else if (m.group(2).equals("dateEnd")) {
+							query.setParameter(m.group(2), "2013-1-1");
+						}else {
+							query.setParameter(m.group(2), "%%");
+						}
 					}
-					query.setParameter(key, value.substring(0, value.length()-2));
 				}
 			}
 			list = query.getResultList();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;

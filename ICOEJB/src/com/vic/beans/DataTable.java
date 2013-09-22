@@ -2,12 +2,18 @@ package com.vic.beans;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -17,11 +23,24 @@ public class DataTable implements Serializable{
 	private String tableId;
 	private String tableName;
 	private String tableType;
-	private String tHead;
-	private String sqlStr;
+	private String tHeadHtml;
+	private String tBodySql;
+	private List<Object[]> tbodyList;//根据tbodysql去查询得到
+	private Set<TFoot> tFoots = new HashSet<TFoot>();
+	private String tableHTML;
 	private Set<Page> pageSet = new HashSet<Page>();
-	private Set<Object[]> dataSet;
 	
+	public DataTable() {
+		super();
+	}
+	public DataTable(String tableName, String tHeadHtml, String tBodySql,
+			Set<TFoot> tFoots) {
+		super();
+		this.tableName = tableName;
+		this.tHeadHtml = tHeadHtml;
+		this.tBodySql = tBodySql;
+		this.tFoots = tFoots;
+	}
 	@Id
 	@GeneratedValue
 	public String getTableId() {
@@ -42,31 +61,69 @@ public class DataTable implements Serializable{
 	public void setTableType(String tableType) {
 		this.tableType = tableType;
 	}
-	public String gettHead() {
-		return tHead;
+	public String gettHeadHtml() {
+		return tHeadHtml;
 	}
-	public void settHead(String tHead) {
-		this.tHead = tHead;
+	public void settHeadHtml(String tHeadHtml) {
+		this.tHeadHtml = tHeadHtml;
 	}
-	public String getSqlStr() {
-		return sqlStr;
+	public String gettBodySql() {
+		return tBodySql;
 	}
-	public void setSqlStr(String sqlStr) {
-		this.sqlStr = sqlStr;
+	public void settBodySql(String tBodySql) {
+		this.tBodySql = tBodySql;
 	}
-	@ManyToMany(mappedBy="tableSet")
+	@ManyToMany(mappedBy="tableSet",fetch=FetchType.EAGER)
 	public Set<Page> getPageSet() {
 		return pageSet;
 	}
 	public void setPageSet(Set<Page> pageSet) {
 		this.pageSet = pageSet;
 	}
-	
 	@Transient
-	public Set<Object[]> getDataSet() {
-		return dataSet;
+	public String getTableHTML() {
+		return tableHTML;
 	}
-	public void setDataSet(Set<Object[]> dataSet) {
-		this.dataSet = dataSet;
+	public void setTableHTML(String tableHTML) {
+		this.tableHTML = tableHTML;
+	}
+	@OneToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+	@OrderBy(value = "id ASC")
+	@JoinColumn(name = "tableId")
+	public Set<TFoot> gettFoots() {
+		return tFoots;
+	}
+	public void settFoots(Set<TFoot> tFoots) {
+		this.tFoots = tFoots;
+	}
+	@Transient
+	public List<Object[]> getTbodyList() {
+		return tbodyList;
+	}
+	public void setTbodyList(List<Object[]> tbodyList) {
+		this.tbodyList = tbodyList;
+	}
+	public String toHTML(){
+		StringBuilder sb = new StringBuilder("<table>");
+		sb.append(tHeadHtml);
+		if (tbodyList!=null) {
+			sb.append("<tbody>");
+			for (Object[] objects : tbodyList) {
+				sb.append("<tr>");
+				for (Object object : objects) {
+					sb.append("<td>").append(object.toString()).append("</td>");
+				}
+				sb.append("</tr>");
+			}
+		}
+		if (tFoots.size()>0) {
+			sb.append("<tfoot>");
+			for (TFoot tFoot : tFoots) {
+				sb.append(tFoot.toHTML());
+			}
+			sb.append("<tfoot>");
+		}
+		sb.append("</table>");
+		return sb.toString();
 	}
 }

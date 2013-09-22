@@ -1,6 +1,7 @@
 package com.vic.fusioncharts;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,7 +17,7 @@ public class LineSet implements Serializable{
 	private String color = "ff0000";
 	private String showValues = "0";
 	private String lineThickness = "4";
-	private Set<String> valueSet;
+	private List<Object> valueList;
 	private String id;
 	private String lineSetSql;
 	@Id
@@ -62,14 +63,14 @@ public class LineSet implements Serializable{
 	}
 
 	@Transient
-	public Set<String> getValueSet() {
-		return valueSet;
+	public List<Object> getValueList() {
+		return valueList;
 	}
 
-	public void setValueSet(Set<String> valueSet) {
-		this.valueSet = valueSet;
+	public void setValueList(List<Object> valueList) {
+		this.valueList = valueList;
 	}
-	
+
 	@Column(length=1024)
 	public String getLineSetSql() {
 		return lineSetSql;
@@ -91,9 +92,9 @@ public class LineSet implements Serializable{
 		StringBuilder sb = new StringBuilder("<lineSet seriesname='");
 		sb.append(seriesName).append("' color='")
 		.append(color).append("' showValues='").append(showValues)
-		.append("' lineThickness=").append(lineThickness);
-		for (String value : valueSet) {
-			sb.append("<set value='").append(value).append("'/>");
+		.append("' lineThickness='").append(lineThickness).append("'>");
+		for (Object value : valueList) {
+			sb.append("<set value='").append(value.toString()).append("' />");
 		}
 		sb.append("</lineSet>");
 		return sb.toString();

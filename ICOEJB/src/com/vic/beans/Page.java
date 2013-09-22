@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +25,18 @@ public class Page implements Serializable{
 	private Set<Chart> chartSet = new HashSet<Chart>();
 	private Set<DataTable> tableSet = new HashSet<DataTable>();
 	
+	public Page() {
+	}
+	
+	public Page(String pageName, Set<Condition> conditionSet,
+			Set<Chart> chartSet, Set<DataTable> tableSet) {
+		this.pageName = pageName;
+		this.conditionSet = conditionSet;
+		this.chartSet = chartSet;
+		this.tableSet = tableSet;
+	}
+
+
 	@Id
 	@GeneratedValue
 	public String getPageId() {
@@ -39,9 +52,10 @@ public class Page implements Serializable{
 		this.pageName = pageName;
 	}
 	
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name="Page_Condition",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
 	inverseJoinColumns={ @JoinColumn(name = "conditionId", referencedColumnName = "conditionId") })
+	@OrderBy(value = "conditionId ASC")
 	public Set<Condition> getConditionSet() {
 		return conditionSet;
 	}
@@ -49,9 +63,10 @@ public class Page implements Serializable{
 		this.conditionSet = conditionSet;
 	}
 	
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name="Page_Chart",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
 	inverseJoinColumns={ @JoinColumn(name = "chartId", referencedColumnName = "chartId") })
+	@OrderBy(value = "chartId ASC")
 	public Set<Chart> getChartSet() {
 		return chartSet;
 	}
@@ -59,7 +74,7 @@ public class Page implements Serializable{
 		this.chartSet = chartSet;
 	}
 	
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name="Page_DataTable",joinColumns={@JoinColumn(name="pageId",referencedColumnName="pageId")},
 	inverseJoinColumns={ @JoinColumn(name = "tableId", referencedColumnName = "tableId") })
 	public Set<DataTable> getTableSet() {

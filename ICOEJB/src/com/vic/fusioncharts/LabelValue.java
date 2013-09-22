@@ -1,6 +1,14 @@
 package com.vic.fusioncharts;
 
 public class LabelValue {
+	public LabelValue() {
+		super();
+	}
+	public LabelValue(String label, String value) {
+		super();
+		this.label = label;
+		this.value = value;
+	}
 	private String id;
 	private String label;
 	private String value;

@@ -1,26 +1,18 @@
 package com.vic.fusioncharts;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.ws.rs.DefaultValue;
-
-import com.ceit.ico.dao.NativeQueryDao;
 import com.vic.beans.Chart;
 @Entity
 @Table(name="MSStackedColumn2DLineDY")
@@ -51,7 +43,6 @@ public class MSStackedColumn2DLineDY extends Chart{
 		this.caption = caption;
 	}
 	
-	@Column(nullable=false)
 	public String getxAxisName() {
 		return xAxisName;
 	}
@@ -59,7 +50,6 @@ public class MSStackedColumn2DLineDY extends Chart{
 		this.xAxisName = xAxisName;
 	}
 
-	@Column(nullable=false)
 	public String getPYaxisname() {
 		return PYaxisname;
 	}
@@ -67,7 +57,6 @@ public class MSStackedColumn2DLineDY extends Chart{
 		PYaxisname = pYaxisname;
 	}
 
-	@Column(nullable=false)
 	public String getSYAxisName() {
 		return SYAxisName;
 	}

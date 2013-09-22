@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -35,7 +36,7 @@ public class Chart implements Serializable {
 	public void setChartId(String chartId) {
 		this.chartId = chartId;
 	}
-	@ManyToMany(mappedBy="chartSet")
+	@ManyToMany(mappedBy="chartSet",fetch=FetchType.EAGER)
 	public Set<Page> getPageSet() {
 		return pageSet;
 	}

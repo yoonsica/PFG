@@ -1,10 +1,11 @@
 package com.vic.fusioncharts;
 
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.ws.rs.DefaultValue;
@@ -12,8 +13,8 @@ import javax.ws.rs.DefaultValue;
 import com.vic.beans.Chart;
 
 @Entity
-@Table(name="PIE2D")
-@DiscriminatorValue("PIE2D")
+@Table(name="Pie2D")
+@DiscriminatorValue("Pie2D")
 public class Pie2D extends Chart{
 	private String caption;
 	private String baseFontSize;
@@ -29,7 +30,18 @@ public class Pie2D extends Chart{
 	private String showBorder;
 	private String startingAngle;
 	private String setSql;
-	private Set<LabelValue> lvSet;//这个字段不映射。
+	private List<LabelValue> lvSet;//这个字段不映射。
+
+	public Pie2D() {
+		super();
+	}
+	
+	public Pie2D(String caption, String setSql) {
+		super();
+		this.caption = caption;
+		this.setSql = setSql;
+	}
+
 
 	public String getCaption() {
 		return caption;
@@ -139,13 +151,14 @@ public class Pie2D extends Chart{
 	}
 
 	@Transient
-	public Set<LabelValue> getLvSet() {
+	public List<LabelValue> getLvSet() {
 		return lvSet;
 	}
-	public void setLvSet(Set<LabelValue> lvSet) {
+	public void setLvSet(List<LabelValue> lvSet) {
 		this.lvSet = lvSet;
 	}
 
+	@Column(length=1024)
 	public String getSetSql() {
 		return setSql;
 	}
