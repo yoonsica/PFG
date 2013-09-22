@@ -14,6 +14,7 @@ public class ConditionAction extends ActionSupport{
 	private String name;//英文名
 	private String label;//中文名
 	private String type;//条件类型，select或者checkbox
+	private List<Condition> conditionList;
 	private List<CodeName> codeNameList;//从数据库查出的可供选择的条目集合，用来展示给前台
 	private String[] codeNameSelected;//前台复选框用户选择的值集合
 	private String conditionId;
@@ -21,6 +22,12 @@ public class ConditionAction extends ActionSupport{
 	private CodeNameService codeNameService;
 	private ConditionService conditionService;
 	private List<String> codeChecked= new ArrayList<String>();
+	public List<Condition> getConditionList() {
+		return conditionList;
+	}
+	public void setConditionList(List<Condition> conditionList) {
+		this.conditionList = conditionList;
+	}
 	public List<String> getCodeChecked() {
 		return codeChecked;
 	}
@@ -87,6 +94,10 @@ public class ConditionAction extends ActionSupport{
 		return "toConditionAdd";
 	}
 	
+	public String allConditions() throws Exception{
+		conditionList = conditionService.getAllConditions();
+		return "allConditions";
+	}
 	/**
 	 * 处理添加条件请求
 	 * @return

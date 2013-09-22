@@ -74,7 +74,6 @@ request.setAttribute("basePath", basePath);
   		</div>
   		</div>
   		<input type="button" value="提交" id="sub"/></br>
-  		<a href="http://user.qzone.qq.com/470614197" target="_blank"><img src="http://r.qzone.qq.com/cgi-bin/cgi_get_user_pic?openid=0000000000000000000000000ABD9B35&pic=1.jpg&key=5b67fdceb97b590fbcaf6e7601cc5eba"></a>
   	</form>
   </body>
 </html>
